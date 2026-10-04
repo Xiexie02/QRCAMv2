@@ -41,7 +41,7 @@ The browser QR libraries are included in `assets`, so the app has no runtime CDN
 ## Use Supabase
 
 1. In the Supabase SQL Editor, run `database\supabase.sql`.
-2. Set `DB_DRIVER=supabase`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in the server's `.env`.
+2. Set `DB_DRIVER=supabase`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in the server's `.env`. Use the legacy `service_role` key from **Project Settings → API Keys → Legacy anon, service_role API keys**.
 3. Set `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH` as above.
 4. Keep `.env` outside source control and never expose the service-role key to browser JavaScript.
 
