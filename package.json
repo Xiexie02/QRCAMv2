@@ -1,0 +1,16 @@
+{
+  "name": "qrcamv2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "QR Code Attendance Management System",
+  "scripts": {
+    "build:qr": "esbuild qr-browser-entry.js --bundle --minify --outfile=assets/qrcode-browser.js"
+  },
+  "dependencies": {
+    "html5-qrcode": "2.3.8",
+    "qrcode": "1.5.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
