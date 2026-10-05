@@ -63,6 +63,28 @@ The repository includes a Render Blueprint and Dockerfile for the PHP app. The s
 
 Render's free web services can spin down after 15 minutes without traffic, so the first request after idle may take time. Render describes free instances as intended for testing and hobby use, not production. Use fictional records until you have confirmed that the hosting and data handling meet your school's privacy requirements. The free service also depends on Render's current free-tier limits.
 
+## Deploy on Hostinger (backup shared hosting)
+
+Hostinger is a paid hosting provider. You need an active Web or Cloud hosting plan and a domain/site configured for **Custom PHP/HTML** before uploading. This app uses PHP, Apache-compatible `.htaccess` rules, HTTPS requests to Supabase, and the PHP `curl` and `mbstring` extensions; confirm the selected plan exposes those extensions and permits outbound HTTPS to your Supabase project.
+
+1. In hPanel, add a Custom PHP/HTML website, open its **File Manager**, and upload the contents of this project to that website's `public_html` directory. Do not upload `.git`, `node_modules`, Docker deployment files, or any `.env.example` file as `.env`.
+2. In hPanel's PHP settings, select PHP 8.1 or newer and enable `curl` and `mbstring`. Enable HTTPS/SSL for the domain before using the camera scanner.
+3. In the `public_html` directory, create a server-side file named `.env` (the included `.htaccess` denies public HTTP access to dotfiles) with:
+
+   ```dotenv
+   DB_DRIVER=supabase
+   SUPABASE_URL=https://ejzlysntgphnizgiekui.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=PASTE_THE_PRIVATE_SERVICE_ROLE_KEY_HERE
+   ADMIN_USERNAME=YOUR_ADMIN_LOGIN_EMAIL
+   ADMIN_PASSWORD_HASH=PASTE_A_PASSWORD_HASH_HERE
+   APP_TIMEZONE=Asia/Manila
+   ```
+
+   Generate the hash on your own computer with PHP: `php -r "echo password_hash('your-strong-password', PASSWORD_DEFAULT), PHP_EOL;"`. Use the matching login identifier and password when signing in. Never store the plain-text password or service-role key in the repository or upload them in a public archive.
+4. Visit `https://your-domain/` for the adviser console and `https://your-domain/checkin.php` for student check-in. Verify sign-in and Supabase reads before importing real student data.
+
+Hostinger's exact menu labels and available PHP extensions depend on the plan and hPanel version. If the host does not provide `curl`/`mbstring` or blocks outbound HTTPS, this Supabase deployment will not work there; contact Hostinger support or use a supported PHP host. The database remains in Supabase and is not stored on Hostinger.
+
 ## CSV format
 
 Use a UTF-8 CSV with a header row. Required columns are `student_no` and `full_name`; `class_section` is optional. Example:

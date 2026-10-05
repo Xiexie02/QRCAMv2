@@ -22,7 +22,7 @@ declare(strict_types=1);
             <p class="muted">Sign in to manage your class attendance.</p>
             <p><a class="text-button" href="checkin.php">Student QR check-in →</a></p>
             <form id="login-form">
-                <label>Username<input name="username" autocomplete="username" required></label>
+                <label>Admin email or username<input name="username" autocomplete="username" required></label>
                 <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
                 <button class="button primary wide" type="submit">Sign in</button>
                 <p id="login-error" class="error-text" role="alert"></p>
