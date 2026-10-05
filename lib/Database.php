@@ -251,10 +251,12 @@ final class SupabaseStore implements QrcamStore
         }
         $headers = [
             'apikey: ' . $this->key,
-            'Authorization: Bearer ' . $this->key,
             'Content-Type: application/json',
             'Accept: application/json',
         ];
+        if (!str_starts_with($this->key, 'sb_secret_')) {
+            $headers[] = 'Authorization: Bearer ' . $this->key;
+        }
         if ($prefer !== '') {
             $headers[] = 'Prefer: ' . $prefer;
         }

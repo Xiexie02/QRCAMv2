@@ -41,18 +41,18 @@ The browser QR libraries are included in `assets`, so the app has no runtime CDN
 ## Use Supabase
 
 1. In the Supabase SQL Editor, run `database\supabase.sql`.
-2. Set `DB_DRIVER=supabase`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in the server's `.env`. Use the legacy `service_role` key from **Project Settings → API Keys → Legacy anon, service_role API keys**.
+2. Set `DB_DRIVER=supabase`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` in the server's environment. Put Supabase's server-only **Secret API key** (`sb_secret_...`) in `SUPABASE_SERVICE_ROLE_KEY`; a legacy JWT `service_role` key is also supported. The legacy environment-variable name is retained for compatibility.
 3. Set `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH` as above.
 4. Keep `.env` outside source control and never expose the service-role key to browser JavaScript.
 
-The PHP server accesses Supabase through its REST API using the server-only service-role key. The dashboard refreshes every three seconds. Supabase mode needs an internet connection.
+The PHP server accesses Supabase through its REST API using the server-only key. For `sb_secret_...` keys, requests send the key only in the `apikey` header because new secret keys are not JWTs; legacy `service_role` JWTs are sent as both `apikey` and bearer authorization. The dashboard refreshes every three seconds. Supabase mode needs an internet connection.
 
 ## Deploy on Render (free tier)
 
 The repository includes a Render Blueprint and Dockerfile for the PHP app. The service connects to the existing Supabase project; student and attendance records are stored in Supabase, not the container filesystem.
 
 1. Sign in to [Render](https://dashboard.render.com/) with GitHub and create a **New → Blueprint** deployment for `Xiexie02/QRCAMv2`. Render will read `render.yaml` from the repository.
-2. When prompted, enter `SUPABASE_SERVICE_ROLE_KEY` from Supabase **Project Settings → API Keys → Legacy anon, service_role API keys**. Enter `ADMIN_PASSWORD_HASH` as a hash generated locally (never enter the plain-text password as the hash):
+2. When prompted, enter the Supabase **Secret API key** (`sb_secret_...`) from **Project Settings → API Keys** as `SUPABASE_SERVICE_ROLE_KEY`. Enter `ADMIN_PASSWORD_HASH` as a hash generated locally (never enter the plain-text password as the hash):
 
    ```powershell
    php -r "echo password_hash('choose-a-strong-password', PASSWORD_DEFAULT), PHP_EOL;"
@@ -74,7 +74,7 @@ Hostinger is a paid hosting provider. You need an active Web or Cloud hosting pl
    ```dotenv
    DB_DRIVER=supabase
    SUPABASE_URL=https://ejzlysntgphnizgiekui.supabase.co
-   SUPABASE_SERVICE_ROLE_KEY=PASTE_THE_PRIVATE_SERVICE_ROLE_KEY_HERE
+   SUPABASE_SERVICE_ROLE_KEY=PASTE_THE_PRIVATE_SUPABASE_SECRET_KEY_HERE
    ADMIN_USERNAME=YOUR_ADMIN_LOGIN_EMAIL
    ADMIN_PASSWORD_HASH=PASTE_A_PASSWORD_HASH_HERE
    APP_TIMEZONE=Asia/Manila
