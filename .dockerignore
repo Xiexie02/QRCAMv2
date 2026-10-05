@@ -1,0 +1,6 @@
+.env
+.git
+.github
+node_modules
+vendor
+QRCAMv2.zip

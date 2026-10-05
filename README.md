@@ -47,6 +47,22 @@ The browser QR libraries are included in `assets`, so the app has no runtime CDN
 
 The PHP server accesses Supabase through its REST API using the server-only service-role key. The dashboard refreshes every three seconds. Supabase mode needs an internet connection.
 
+## Deploy on Render (free tier)
+
+The repository includes a Render Blueprint and Dockerfile for the PHP app. The service connects to the existing Supabase project; student and attendance records are stored in Supabase, not the container filesystem.
+
+1. Sign in to [Render](https://dashboard.render.com/) with GitHub and create a **New → Blueprint** deployment for `Xiexie02/QRCAMv2`. Render will read `render.yaml` from the repository.
+2. When prompted, enter `SUPABASE_SERVICE_ROLE_KEY` from Supabase **Project Settings → API Keys → Legacy anon, service_role API keys**. Enter `ADMIN_PASSWORD_HASH` as a hash generated locally (never enter the plain-text password as the hash):
+
+   ```powershell
+   php -r "echo password_hash('choose-a-strong-password', PASSWORD_DEFAULT), PHP_EOL;"
+   ```
+
+   Keep the service-role key and password hash in Render's private environment-variable settings. Do not add either value to GitHub or a committed `.env` file.
+3. Deploy the Blueprint and open the `qrcamv2` service URL shown in Render. The adviser console is at `/`; student check-in is at `/checkin.php`.
+
+Render's free web services can spin down after 15 minutes without traffic, so the first request after idle may take time. Render describes free instances as intended for testing and hobby use, not production. Use fictional records until you have confirmed that the hosting and data handling meet your school's privacy requirements. The free service also depends on Render's current free-tier limits.
+
 ## CSV format
 
 Use a UTF-8 CSV with a header row. Required columns are `student_no` and `full_name`; `class_section` is optional. Example:
