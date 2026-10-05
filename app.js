@@ -225,14 +225,15 @@
     $('#login-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         $('#login-error').textContent = '';
-        const form = new FormData(event.currentTarget);
+        const loginForm = event.currentTarget;
+        const form = new FormData(loginForm);
         try {
             const result = await api('login', {
                 method: 'POST',
                 body: JSON.stringify({ username: form.get('username'), password: form.get('password') }),
             });
             state.csrf = result.csrf;
-            event.currentTarget.reset();
+            loginForm.reset();
             showAuthenticated(true, form.get('username'));
         } catch (error) {
             $('#login-error').textContent = error.message;
