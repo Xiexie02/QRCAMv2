@@ -36,6 +36,11 @@ alter table public.students enable row level security;
 alter table public.attendance enable row level security;
 alter table public.audit_logs enable row level security;
 
+grant usage on schema public to service_role;
+grant select, insert, update on public.students to service_role;
+grant select, insert, update on public.attendance to service_role;
+grant select, insert on public.audit_logs to service_role;
+
 create or replace function public.adjust_attendance(
     p_actor text,
     p_student_id uuid,
